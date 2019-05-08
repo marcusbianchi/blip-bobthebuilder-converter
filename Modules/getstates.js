@@ -79,6 +79,7 @@ exports.getstates = (function () {
         return true
     }
     return function (blipJson) {
+        var idMap = {}
         Object.keys(blipJson).forEach(function (k) {
             let blipblock = blipJson[k]
             if (checkMessage(blipblock)) {
@@ -102,9 +103,13 @@ exports.getstates = (function () {
                     "actionsBefore": null,
                     "actionsAfter": null
                 }
+                idMap[id]=name;
                 bobStatesjson.push(bobBlock);
             }
         });
-        return bobStatesjson;
+        return {
+            states : bobStatesjson,
+            map : idMap
+        };
     }
 })()
