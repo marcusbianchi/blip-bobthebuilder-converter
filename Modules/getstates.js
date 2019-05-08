@@ -37,15 +37,31 @@ exports.getstates = (function () {
         var messages = []
         var actions = blipblock['$contentActions']
         var count = 0;
+        var tracking = "default";
         if (actions) {
             for (let index = 0; index < actions.length; index++) {
                 const element = actions[index];
                 if (element['action'] && element['action']['type'] == 'SendMessage'
                     && element['action']['settings'] && element['action']['settings']['type']
                     && element['action']['settings']['type'] == "text/plain") {
+                    let text = element['action']['settings']['content'];
+                    if(text.indexOf("*1") != -1)
+                        tracking = "option"
+                    let message = {
+                        "mediaType": "Text",
+                        "order": count,
+                        "text": text
+                    }
+                    count++;
+                    messages.push(message);
+                }
+
+                if (element['action'] && element['action']['type'] == 'SendMessage'
+                    && element['action']['settings'] && element['action']['settings']['type']
+                    && element['action']['settings']['type'] == "application/vnd.lime.web-link+json") {
                     let text = element['action']['settings']['content']
                     let message = {
-                        "mediaType": "TEXT",
+                        "mediaType": "WebLink",
                         "order": count,
                         "text": text
                     }
@@ -54,7 +70,7 @@ exports.getstates = (function () {
                 }
             }
         }
-        return messages
+        return { messages: messages, tracking : tracking }
     }
 
     var camelize = function (str) {
@@ -96,20 +112,20 @@ exports.getstates = (function () {
                 let bobBlock = {
                     "id": id,
                     "name": name,
-                    "interactions": messages,
+                    "interactions": messages.messages,
                     "stoppingPoint": userInteraction,
-                    "tracking": null,
+                    "tracking": messages.tracking,
                     "defaultExit": "exception",
                     "actionsBefore": null,
                     "actionsAfter": null
                 }
-                idMap[id]=name;
+                idMap[id] = name;
                 bobStatesjson.push(bobBlock);
             }
         });
         return {
-            states : bobStatesjson,
-            map : idMap
+            states: bobStatesjson,
+            map: idMap
         };
     }
 })()
