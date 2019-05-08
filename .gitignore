@@ -1,0 +1,7 @@
+output/*
+input/*
+resourcefiles/*
+node_modules/
+!input/.gitkeep 
+!output/.gitkeep 
+!resourcefiles/.gitkeep 
