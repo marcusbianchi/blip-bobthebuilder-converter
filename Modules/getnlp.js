@@ -3,7 +3,9 @@ exports.getnlp = (function () {
     var default_values = {}
 
     var getKeyByValue = function (object, value) {
-        return Object.keys(object).find(key => object[key].toLowerCase().indexOf(value.toLowerCase()) != -1);
+        return Object.keys(object).find(
+            key => object[key].toLowerCase().indexOf(value.toLowerCase()) != -1
+        );
     }
 
     var findId = function (flowPoint, builderPoint, idMap) {

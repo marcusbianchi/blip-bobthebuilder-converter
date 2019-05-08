@@ -2,7 +2,7 @@ exports.getstates = (function () {
     var bobStatesjson = [
         {
             "id": "start",
-            "name": "Início",
+            "name": "Inicio",
             "interactions": null,
             "stoppingPoint": true,
             "tracking": null,
@@ -10,7 +10,7 @@ exports.getstates = (function () {
         },
         {
             "id": "exception",
-            "name": "Exceção",
+            "name": "Excecao",
             "interactions": null,
             "stoppingPoint": false,
             "tracking": null,
